@@ -1,0 +1,107 @@
+#include <iostream>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <time.h>
+int main ()
+{
+int sum=0,
+diagsum=0,
+local_sum,
+local_diag,
+N = 1000;
+clock_t t1, t2;
+t2 = clock();
+int** arrayA = new int*[N]; //declaring array dynamically.
+int** arrayB = new int*[N];
+int** MultAxB = new int*[N];
+for(int m=0;m<N;++m)
+{
+arrayA[m] = new int[N];
+}
+for(int m=0;m<N;++m)
+{
+arrayB[m] = new int[N];
+}
+for(int m=0;m<N;++m)
+{
+MultAxB[m] = new int[N];
+}
+srand (time(NULL));
+//Creating matrix A of size rowSize x colSize with random of first 30
+for(int i = 0;i<N;++i)
+{
+for(int j = 0;j<N;++j)
+{
+arrayA[i][j]=rand() % 10;
+}
+}
+for(int i = 0;i<N;++i)
+{
+for(int j = 0;j<N;++j)
+{
+arrayB[i][j]=rand() % 10;
+}
+}
+{
+local_sum = 0;
+local_diag=0;
+//sum of element of the matrix
+t1 = clock();
+for(int i = 0;i<N;i++)
+{
+for(int j=0;j<N;j++)
+{
+sum = sum + arrayA[i][j];
+}
+}
+std::cout << "time taken to execute sum of element of Matrix A = " << (double)(clock()-t1)/CLOCKS_PER_SEC << '\n';
+t1 = clock();
+for(int j=0;j<N;j++)
+{
+diagsum = diagsum + arrayA[j][j];
+}
+std::cout << "time taken to execute sum of diagonal element of Matrix A = " << (double)(clock()-t1)/CLOCKS_PER_SEC << '\n';
+//multiplication of mat A and mat B
+t1 = clock();
+{
+for(int i = 0; i < N; ++i)
+{
+for(int j = 0; j < N; ++j)
+{
+for(int k = 0; k < N; ++k)
+{
+MultAxB[i][j] += arrayA[i][k] * arrayB[k][j];
+}
+}
+}
+}
+std::cout << "time taken to execute Multiplication of Matrix chunck of Matrix A = " << (double)(clock()-t1)/CLOCKS_PER_SEC << '\n';
+t1 = clock();
+for(int i = 0;i<N;i++)
+{
+for(int j=0;j<N;j++)
+{
+arrayB[i][j] = arrayB[i][j] + arrayA[i][j];
+}
+}
+std::cout << "time taken to execute Addition of two Matrix A and Matrix B = " << (double)(clock()-t1)/CLOCKS_PER_SEC << '\n';
+for(int m=0;m<N;m++)
+{
+delete[] arrayA[m];
+}
+for(int m=0;m<N;m++)
+{
+delete[] arrayB[m];
+}
+for(int m=0;m<N;m++)
+{
+delete[] MultAxB[m];
+}
+delete[] arrayA;
+delete[] arrayB;
+delete[] MultAxB;
+std::cout << "time taken to execute whole program = " << (double)(clock()-t2)/CLOCKS_PER_SEC <<'\n';
+return 0;
+}
+}
